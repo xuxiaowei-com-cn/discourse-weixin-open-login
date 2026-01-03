@@ -1,0 +1,9 @@
+zh_CN:
+  plugins:
+    discourse_weixin_open_login:
+      name: "微信登录"
+  site_settings:
+    weixin_open_login_enabled: "启用微信扫码登录"
+    weixin_open_login_app_id: "微信开放平台 AppID"
+    weixin_open_login_app_secret: "微信开放平台 AppSecret"
+    weixin_open_login_button_title: "微信登录按钮标题"

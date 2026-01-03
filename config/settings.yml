@@ -1,0 +1,27 @@
+login:
+  weixin_open_login_enabled:
+    default: false
+    client: true
+    type: bool
+    description: "Enable WeChat Open Platform (Website App) login"
+    area: "login"
+
+  weixin_open_login_app_id:
+    default: ""
+    type: string
+    description: "WeChat Open Platform App ID"
+    area: "login"
+
+  weixin_open_login_app_secret:
+    default: ""
+    type: string
+    description: "WeChat Open Platform App Secret"
+    secret: true
+    area: "login"
+
+  weixin_open_login_button_title:
+    default: "WeChat"
+    client: true
+    type: string
+    description: "Title for the WeChat login button"
+    area: "login"
