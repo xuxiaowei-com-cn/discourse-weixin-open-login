@@ -1,8 +1,13 @@
 zh_CN:
   js:
     login:
-      weixin_open:
+      weixin:
         name: "微信"
         title: "使用微信登录"
         sr_title: "使用微信登录"
         message: "使用微信进行身份验证"
+  admin_js:
+    admin:
+      site_settings:
+        categories:
+          weixin: "微信登录"

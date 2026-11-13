@@ -1,0 +1,15 @@
+en:
+  weixin_login:
+    name: "WeChat"
+  plugins:
+    discourse_weixin_login:
+      name: "WeChat Login"
+  site_settings:
+    weixin_login_enabled: "Enable WeChat login (QR code on desktop, official account authorization inside WeChat)"
+    weixin_login_open_platform_enabled: "Enable the WeChat Open Platform website app (QR code login)"
+    weixin_login_open_platform_app_id: "AppID of the WeChat Open Platform website app"
+    weixin_login_open_platform_app_secret: "AppSecret of the WeChat Open Platform website app"
+    weixin_login_mp_enabled: "Enable WeChat official account OAuth login (only works inside WeChat)"
+    weixin_login_mp_app_id: "AppID of the WeChat official account"
+    weixin_login_mp_app_secret: "AppSecret of the WeChat official account"
+    weixin_login_button_title: "Text shown on the WeChat login button"

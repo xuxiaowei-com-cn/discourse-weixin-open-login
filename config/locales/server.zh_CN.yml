@@ -1,9 +1,15 @@
 zh_CN:
+  weixin_login:
+    name: "微信"
   plugins:
-    discourse_weixin_open_login:
+    discourse_weixin_login:
       name: "微信登录"
   site_settings:
-    weixin_open_login_enabled: "启用微信扫码登录"
-    weixin_open_login_app_id: "微信开放平台 AppID"
-    weixin_open_login_app_secret: "微信开放平台 AppSecret"
-    weixin_open_login_button_title: "微信登录按钮标题"
+    weixin_login_enabled: "启用微信登录（桌面端扫码，或微信内通过公众号授权）"
+    weixin_login_open_platform_enabled: "启用微信开放平台网站应用（扫码登录）"
+    weixin_login_open_platform_app_id: "微信开放平台网站应用的 AppID"
+    weixin_login_open_platform_app_secret: "微信开放平台网站应用的 AppSecret"
+    weixin_login_mp_enabled: "启用微信公众号网页授权登录（仅在微信内可用）"
+    weixin_login_mp_app_id: "微信公众号的 AppID"
+    weixin_login_mp_app_secret: "微信公众号的 AppSecret"
+    weixin_login_button_title: "微信登录按钮显示的文字"

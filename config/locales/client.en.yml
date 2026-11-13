@@ -1,0 +1,13 @@
+en:
+  js:
+    login:
+      weixin:
+        name: "WeChat"
+        title: "Log in with WeChat"
+        sr_title: "Log in with WeChat"
+        message: "Authenticate with WeChat"
+  admin_js:
+    admin:
+      site_settings:
+        categories:
+          weixin: "WeChat Login"
