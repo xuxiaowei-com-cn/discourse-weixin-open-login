@@ -10,7 +10,16 @@ module WeixinLogin
     OPEN = :open
     MP = :mp
 
+    # 公众号网页授权支持的两个 scope。网站应用扫码固定使用 snsapi_login。
+    MP_SCOPES = %w[snsapi_userinfo snsapi_base].freeze
+    DEFAULT_MP_SCOPE = "snsapi_userinfo"
+
     module_function
+
+    def mp_scope
+      scope = SiteSetting.weixin_login_mp_scope.to_s
+      MP_SCOPES.include?(scope) ? scope : DEFAULT_MP_SCOPE
+    end
 
     def app_id(flow)
       flow == MP ? SiteSetting.weixin_login_mp_app_id : SiteSetting.weixin_login_open_platform_app_id

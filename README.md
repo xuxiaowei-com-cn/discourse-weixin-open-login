@@ -32,7 +32,7 @@
       ▼                 ▼
 open.weixin.qq.com    open.weixin.qq.com
 /connect/qrconnect    /connect/oauth2/authorize
-(scope=snsapi_login)  (scope=snsapi_userinfo)
+(scope=snsapi_login)  (scope=snsapi_userinfo 或 snsapi_base)
       │                 │
       └───────┬─────────┘
               ▼
@@ -184,17 +184,33 @@ docker restart discourse-web-1
 | `weixin_login_mp_enabled` | 启用公众号网页授权渠道 |
 | `weixin_login_mp_app_id` | 公众号 AppID |
 | `weixin_login_mp_app_secret` | 公众号 AppSecret |
+| `weixin_login_mp_scope` | 公众号网页授权的 scope，可选 `snsapi_userinfo`（默认）或 `snsapi_base` |
 | `weixin_login_button_title` | 登录按钮文字，默认「微信」 |
 
 - 总开关打开，并且至少一个渠道的 `AppID` + `AppSecret` 填写完整，登录按钮才会出现。
 - 只配置一个渠道也能使用：未配置公众号时，微信内会回落到扫码页（体验较差，建议两个都配置）；未配置网站应用时，桌面端会提示需要在微信内打开。
 
+### 公众号 scope 说明
+
+微信网页授权只有两个 scope，可由管理员在 `weixin_login_mp_scope` 中选择：
+
+| scope | 行为 | 能获取的信息 |
+|---|---|---|
+| `snsapi_userinfo`（默认） | 首次需要用户手动同意（已关注服务号时可能静默） | `openid`、`unionid`、昵称、头像、地区 |
+| `snsapi_base` | 静默授权，不弹授权页 | 仅 `openid`（公众号绑定开放平台时包含 `unionid`），没有昵称/头像/地区 |
+
+注意：
+
+- 两个 scope 都要求公众号是**已认证的服务号**；如果账号没有网页授权权限，两个 scope 都会报 `Scope 参数错误或没有 Scope 权限`，这不是改 scope 能解决的。
+- 网站应用扫码登录固定使用 `snsapi_login`，没有可选值。
+- `snsapi_base` 登录后 `info` 里没有昵称/头像，Discourse 注册页不会预填昵称，头像也不会自动下载；身份仍然按 `unionid`/`openid` 合并。
+
 ## 使用说明
 
 1. 桌面端：点击「微信」→ 微信扫码 → 手机确认 → 回跳论坛。
-2. 微信内：点击「微信」→ 微信授权页（已关注服务号的用户通常静默通过）→ 回跳论坛。
+2. 微信内：点击「微信」→ 微信授权页（`snsapi_base` 时静默通过；`snsapi_userinfo` 时已关注服务号的用户通常静默，其他情况会弹出授权页）→ 回跳论坛。
 3. 微信不返回邮箱。**首次登录**会进入注册页，需要填写邮箱并完成邮箱激活；已有账号可在「偏好设置 → 账户 → 关联账户」中绑定微信。
-4. 登录后会同步昵称、头像与地区（`country province city`）；头像由后台任务异步下载。
+4. 使用 `snsapi_userinfo` 时会同步昵称、头像与地区（`country province city`），头像由后台任务异步下载；使用 `snsapi_base` 时只保留 `openid`/`unionid` 身份，没有昵称和头像。
 
 ## 常见问题
 
@@ -213,6 +229,9 @@ docker restart discourse-web-1
 - 文件内容是验证码本身，不能有 HTML、BOM 或多余换行（`docker cp` 会保持原样）；
 - `docker cp` 在容器重建后会丢失，长期使用请按上文 `app.yml` 的 `after_code` hook 持久化；
 - 如果套了 CDN/WAF，确认该路径没有被拦截或缓存 404。
+
+**报 `Scope 参数错误或没有 Scope 权限`？**
+说明当前公众号 AppID 没有 `snsapi_userinfo`/`snsapi_base` 权限。先确认 `weixin_login_mp_app_id` 是**公众号**的 AppID（不是网站应用或小程序），且该公众号是**已认证的服务号**、接口权限里有「网页服务 → 网页授权」。两个 scope 都需要该权限，改成 `snsapi_base` 并不能绕过。
 
 **为什么没有返回 unionid？**
 公众号未绑定开放平台，或绑定到了另一个开放平台账号。此时插件会使用 openid 登录；绑定后用户下次通过公众号登录会自动升级。

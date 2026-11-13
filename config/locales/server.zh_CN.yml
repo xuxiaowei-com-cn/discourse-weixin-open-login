@@ -12,4 +12,5 @@ zh_CN:
     weixin_login_mp_enabled: "启用微信公众号网页授权登录（仅在微信内可用）"
     weixin_login_mp_app_id: "微信公众号的 AppID"
     weixin_login_mp_app_secret: "微信公众号的 AppSecret"
+    weixin_login_mp_scope: "公众号网页授权 scope：snsapi_userinfo 会弹出授权页并可获取昵称/头像；snsapi_base 静默授权，仅获取 openid（绑定开放平台时含 unionid）"
     weixin_login_button_title: "微信登录按钮显示的文字"

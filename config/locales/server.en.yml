@@ -12,4 +12,5 @@ en:
     weixin_login_mp_enabled: "Enable WeChat official account OAuth login (only works inside WeChat)"
     weixin_login_mp_app_id: "AppID of the WeChat official account"
     weixin_login_mp_app_secret: "AppSecret of the WeChat official account"
+    weixin_login_mp_scope: "Official account OAuth scope: snsapi_userinfo shows a consent page and returns nickname/avatar; snsapi_base is silent and only returns openid (plus unionid when bound to the open platform)"
     weixin_login_button_title: "Text shown on the WeChat login button"

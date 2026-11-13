@@ -16,10 +16,9 @@ module WeixinLogin
       MP => "https://open.weixin.qq.com/connect/oauth2/authorize",
     }.freeze
 
-    SCOPES = {
-      OPEN => "snsapi_login",
-      MP => "snsapi_userinfo",
-    }.freeze
+    # 网站应用扫码登录固定使用 snsapi_login；公众号的 scope 由
+    # Config.mp_scope 根据设置提供。
+    SCOPES = { OPEN => "snsapi_login" }.freeze
 
     # WeChat documents `state` as an alphanumeric value, so the channel is
     # encoded as a prefix instead of using a separator such as ":".
@@ -53,7 +52,9 @@ module WeixinLogin
     end
 
     def scope(flow)
-      SCOPES.fetch(flow || OPEN)
+      return Config.mp_scope if flow == MP
+
+      SCOPES.fetch(OPEN)
     end
 
     def state(flow, random)

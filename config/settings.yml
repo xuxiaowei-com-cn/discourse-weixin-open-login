@@ -37,6 +37,14 @@ weixin:
     secret: true
     area: "login"
 
+  weixin_login_mp_scope:
+    default: "snsapi_userinfo"
+    type: enum
+    choices:
+      - snsapi_userinfo
+      - snsapi_base
+    area: "login"
+
   weixin_login_button_title:
     default: "微信"
     client: true

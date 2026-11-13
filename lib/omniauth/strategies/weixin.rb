@@ -10,6 +10,11 @@ require "uri"
 class OmniAuth::Strategies::Weixin < ::OmniAuth::Strategies::OAuth2
   option :name, "weixin"
 
+  # /sns/userinfo is only available for these scopes. snsapi_base is the
+  # silent official-account scope and only returns openid (plus unionid when
+  # the account is bound to the open platform), so it must skip userinfo.
+  USERINFO_SCOPES = %w[snsapi_userinfo snsapi_login].freeze
+
   option :client_options, {
     site: "https://api.weixin.qq.com",
     token_url: "/sns/oauth2/access_token",
@@ -104,7 +109,7 @@ class OmniAuth::Strategies::Weixin < ::OmniAuth::Strategies::OAuth2
     @raw_info =
       begin
         openid = access_token.params["openid"]
-        if openid.blank?
+        if openid.blank? || !userinfo_scope?
           {}
         else
           data =
@@ -144,6 +149,11 @@ class OmniAuth::Strategies::Weixin < ::OmniAuth::Strategies::OAuth2
       builder.adapter Faraday.default_adapter
     end
     deep_symbolize(opts)
+  end
+
+  def userinfo_scope?
+    scope = access_token.params["scope"].to_s
+    scope.blank? || USERINFO_SCOPES.include?(scope)
   end
 
   def location(raw)
